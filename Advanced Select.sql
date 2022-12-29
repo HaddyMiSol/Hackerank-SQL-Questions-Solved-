@@ -21,7 +21,27 @@ order by occupation_count,occupation
 
 
 --Occupations
+select Doctor, Professor, Singer, Actor from
+(select nm, 
+    max(case when Occupation = 'Doctor' then name end) Doctor,
+    max(case when Occupation = 'Professor' then name end) Professor,
+    max(case when Occupation = 'Singer' then name end) Singer,
+    max(case when Occupation = 'Actor' then name end) Actor
+ from (
+ select name, Occupation, row_number() over (partition by occupation order by name asc) nm from OCCUPATIONS) nl
+ group by nm)n
+ 
+ 
 --Binary Tree Nodes
+select N,
+    case 
+    when P is NULL then 'Root'
+    when N in (select P from BST) then 'Inner'
+    else 'Leaf' end as nt 
+    from BST
+    order by N
+    
+    
 --New Companies
 select c.company_code, c.founder, count(distinct(sm.lead_manager_code)), count(distinct(sm.senior_manager_code)),
 count(distinct(m.manager_code)), count(distinct(e.employee_code)) 
