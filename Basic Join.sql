@@ -20,3 +20,31 @@ select case
     when grade >7 then s.Name else NULL end as Names, g.Grade, s.Marks from Students s
 join Grades g on s.Marks between g.Min_Mark and g.Max_Mark
 order by g.grade desc, Names, s.Marks asc
+
+--Top Competitors
+select h.hacker_id,h.name from Submissions s
+join Challenges c on s.challenge_id = c.challenge_id 
+join Difficulty d on c.difficulty_level = d.difficulty_level
+join Hackers h on h.hacker_id = s.hacker_id and s.score = d.score
+                    group by h.hacker_id, h.name
+HAVING Count(h.hacker_id) > 1 
+ORDER  BY Count(c.challenge_id) DESC, 
+          h.hacker_id
+
+
+--Ollivander's Inventory
+select w.id,wp.age, w.coins_needed, w.power from Wands w
+join Wands_Property wp on w.code = wp.code
+where wp.is_evil < 1 and w.coins_needed = (select Min(w1.coins_needed) 
+    from wands w1 
+    join wands_property wp1 on w1.code = wp1.code 
+    where  wp.age = wp1.age and w.power = w1.power) 
+order by w.power desc, wp.age desc
+
+
+--Contest Leaderboard
+select h.hacker_id, h.name, sum(sscore) from Hackers h
+inner join (select s.hacker_id, max(score) as sscore from Submissions s group by s.hacker_id, s.challenge_id) st on h.hacker_id = st.hacker_id
+group by h.hacker_id, h.name
+having sum(sscore) > 0
+order by sum(sscore) desc, h.hacker_id asc
