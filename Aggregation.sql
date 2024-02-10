@@ -49,8 +49,8 @@ where LAT_N= (select max(LAT_N) from STATION where LAT_N < 137.2345)
 select round(min(LAT_N),4) from STATION where LAT_N > 38.7780
 
 --Weather Observation Station 17
-select round((LONG_W),4) from STATION
-where LAT_N= (select max(LAT_N) from STATION where LAT_N > 38.7780)
+select cast((long_w) as decimal (10,4)) from station
+where lat_n = (select min(lat_n) from station where lat_n >38.7780)
 
 --Weather Observation Station 18
 select round(cast(abs(min(LAT_N) - max(LAT_N)) + abs(min(LONG_W)- max(LONG_W))as decimal(9,4)),4) from STATION
