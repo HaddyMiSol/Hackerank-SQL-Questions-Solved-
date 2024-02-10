@@ -55,6 +55,9 @@ where CITY like '%[aeiou]'
 select distinct(CITY) from STATION
 where right(CITY, 1) in ('a', 'e', 'i', 'o', 'u') and
 left(CITY, 1) in ('a', 'e', 'i', 'o', 'u')
+--OR
+SELECT DISTINCT(CITY) FROM STATION 
+WHERE CITY LIKE '[AEIOU]%' AND CITY LIKE '%[AEIOU]';
 
 
 --Weather Observation Station 9
