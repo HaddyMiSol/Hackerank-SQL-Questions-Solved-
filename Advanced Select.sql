@@ -4,8 +4,8 @@ select
   case
   when ((A+B<=C) or (B+C<=A) or (A+C<B)) then 'Not A Triangle'
   when ((A=B) and (B=C) and (A=C)) then 'Equilateral'
-  when (((A=B) and (A!=C)) or ((B=C) and (B!=A)) or ((A=C) and (A!=B))) then 'Isosceles'
-  when ((A!=B) and (B!=C) and (B!=A)) then 'Scalene' end as
+  when (((A=B) and (A!=C)) or ((B=C) and (B!=A)) or ((C=A) and (C!=B))) then 'Isosceles'
+  when ((A!=B) and (B!=C) and (C!=A)) then 'Scalene' end as
   Triangle_Type
 from TRIANGLES
 
