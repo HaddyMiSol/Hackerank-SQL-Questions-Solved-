@@ -31,22 +31,22 @@ where (months * salary) =
 (select max(months * salary) from Employee)
 
 --Weather Observation Station 2
-select round(cast(sum(LAT_N)as decimal(9,2)),2), round(cast(sum(LONG_W)as decimal(9,2)),2) from STATION
+select cast((sum(lat_n)) as decimal (10,2)), cast((sum(long_w)) as decimal (10,2)) from station
 
 --Weather Observation Station 13
-select round(cast(sum(LAT_N)as decimal(9,4)),4) from STATION
+select cast((sum(LAT_N)) as decimal(9,4)) from STATION
 where LAT_N > 38.7880 and LAT_N < 137.2345
 
 --Weather Observation Station 14
-select round(cast(max(LAT_N)as decimal(9,4)),4) from STATION
+select cast((max(LAT_N)) as decimal(9,4)) from STATION
 where LAT_N < 137.2345
 
 --Weather Observation Station 15
-select round((LONG_W),4) from STATION
-where LAT_N= (select max(LAT_N) from STATION where LAT_N < 137.2345)
+select cast((long_w) as decimal (10,4)) from station
+where lat_n = (select max(lat_n) from station where lat_n < 137.2345)
 
 --Weather Observation Station 16
-select round(min(LAT_N),4) from STATION where LAT_N > 38.7780
+select cast(min(LAT_N) as decimal (10,4)) from STATION where LAT_N > 38.7780
 
 --Weather Observation Station 17
 select cast((long_w) as decimal (10,4)) from station
