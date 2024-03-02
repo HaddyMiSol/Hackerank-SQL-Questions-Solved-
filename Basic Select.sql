@@ -95,6 +95,13 @@ order by name asc
 
 --Employee Salaries
 select name from Employee
+
+--Distance Traveled (Question is from Interview Question.com)
+select name, IFNULL(sum(distance),0) as distance_traveled 
+from users
+left join rides on users.id = rides.passenger_user_id
+group by name
+order by SUM(distance) DESC, name ASC
 where salary > 2000 and months < 10
 
 
