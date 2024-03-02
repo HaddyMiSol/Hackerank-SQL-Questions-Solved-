@@ -50,5 +50,12 @@ left join
                 sum(total_unique_views)!=0
             order by contest_id;
 
+--Distance Traveled (Question is from Interview Question.com)
+select name, IFNULL(sum(distance),0) as distance_traveled 
+from users
+left join rides on users.id = rides.passenger_user_id
+group by name
+order by SUM(distance) DESC, name ASC
+
 
 --15 Days of Learning SQL
