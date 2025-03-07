@@ -23,7 +23,7 @@ order by occupation_count,occupation
 --Occupations
 select Doctor, Professor, Singer, Actor from
 (select nm, 
-    max(case when Occupation = 'Doctor' then name end) Doctor,
+    max(case when Occupation = 'Doctor' then name end) Doctor, --max() to select the first non-NULL value within each group created by the GROUP BY clause
     max(case when Occupation = 'Professor' then name end) Professor,
     max(case when Occupation = 'Singer' then name end) Singer,
     max(case when Occupation = 'Actor' then name end) Actor
@@ -47,5 +47,15 @@ select c.company_code, c.founder, count(distinct(sm.lead_manager_code)), count(d
 count(distinct(m.manager_code)), count(distinct(e.employee_code)) 
 from Company c, Lead_manager lm, Senior_Manager sm, Manager m,Employee e  
 where c.company_code = lm.company_code and lm.lead_manager_code = sm.lead_manager_code and sm.senior_manager_code = m.senior_manager_code and m.manager_code = e.manager_code
+group by c.company_code, c.founder
+order by c.company_code asc
+
+--OR
+
+select c.company_code, c.founder, count(distinct(l.lead_manager_code)), count(distinct(s.senior_manager_code)), count(distinct(m.manager_code)), count(distinct(e.employee_code)) from company c 
+inner join lead_manager l on c.company_code = l.company_code
+inner join senior_manager s on l.lead_manager_code = s.lead_manager_code
+inner join manager m on s.senior_manager_code = m.senior_manager_code
+inner join employee e on m.manager_code = e.manager_code
 group by c.company_code, c.founder
 order by c.company_code asc
