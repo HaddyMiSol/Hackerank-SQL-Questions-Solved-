@@ -24,6 +24,8 @@ select max(POPULATION) - min(POPULATION) from CITY
 
 --The Blunder
 select cast(CEILING(avg(cast(Salary as float)) - avg(cast(replace(Salary, 0,'')as float))) as int) from EMPLOYEES
+--Zero is replaced with space in order to emulate the blunder and this returns string hence why it is converted to float for subtraction purpose.
+--Everything is ceiled to integer as requested in the question.
 
 --Top Earners
 select max(months * salary), count(*) from Employee
@@ -34,11 +36,11 @@ where (months * salary) =
 select cast((sum(lat_n)) as decimal (10,2)), cast((sum(long_w)) as decimal (10,2)) from station
 
 --Weather Observation Station 13
-select cast((sum(LAT_N)) as decimal(9,4)) from STATION
+select cast((sum(LAT_N)) as decimal(10,4)) from STATION
 where LAT_N > 38.7880 and LAT_N < 137.2345
 
 --Weather Observation Station 14
-select cast((max(LAT_N)) as decimal(9,4)) from STATION
+select cast((max(LAT_N)) as decimal(10,4)) from STATION
 where LAT_N < 137.2345
 
 --Weather Observation Station 15
@@ -53,13 +55,12 @@ select cast((long_w) as decimal (10,4)) from station
 where lat_n = (select min(lat_n) from station where lat_n >38.7780)
 
 --Weather Observation Station 18
-select round(cast(abs(min(LAT_N) - max(LAT_N)) + abs(min(LONG_W)- max(LONG_W))as decimal(9,4)),4) from STATION
+select cast((abs(min(lat_n) - max(lat_n))) + abs((min(long_w) - max(long_w))) as decimal(10,4)) from station;
 
 --Weather Observation Station 19
-SELECT ROUND(cast(SQRT(POWER(MAX(LAT_N)-MIN(LAT_N),2)+POWER(MAX(LONG_W)-MIN(LONG_W),2))as decimal(9,4)),4)
-FROM STATION;
+select cast(sqrt(power((min(lat_n) - max(lat_n)),2) + power((min(long_w) - max(long_w)),2)) as decimal(10,4)) from station;
 
 --Weather Observation Station 20
-SELECT Round(s.lat_n, 4)
-FROM station AS s
-WHERE (SELECT Count(lat_n) FROM station WHERE lat_n < s.lat_n) = (SELECT Count(lat_n) FROM station WHERE lat_n > s.lat_n);
+select cast(s.lat_n as decimal(10,4)) from station s
+where
+(select count(lat_n) from station where lat_n < s.lat_n) = (select count(lat_n) from station where lat_n > s.lat_n);
